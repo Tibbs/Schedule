@@ -80,7 +80,12 @@ extension Monthday: CustomStringConvertible {
 
         let fmt = NumberFormatter()
         fmt.locale = Locale.posix
-        fmt.numberStyle = .ordinal
+        if #available(OSX 10.11, *) {
+            fmt.numberStyle = .ordinal
+        } else {
+            // Fallback on earlier versions
+            fmt.numberStyle = .none
+        }
         let ds = fmt.string(from: NSNumber(value: d))!
 
         return "Monthday: \(ms) \(ds)"
